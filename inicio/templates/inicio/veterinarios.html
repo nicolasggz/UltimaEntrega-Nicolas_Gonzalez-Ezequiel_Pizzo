@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Veterinarios{% endblock %}
+
+{% block heading %}Lista de Veterinarios{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for veterinario in veterinarios %}
+            <li>
+                <strong>Nombre:</strong> {{ veterinario.nombre }}<br>
+                <strong>Especialidad:</strong> {{ veterinario.especialidad }}<br>
+                <strong>Teléfono:</strong> {{ veterinario.telefono }}
+            </li>
+        {% empty %}
+            <li>No hay veterinarios registrados.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

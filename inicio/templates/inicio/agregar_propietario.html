@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Agregar Propietario{% endblock %}
+
+{% block heading %}Agregar Propietario{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}

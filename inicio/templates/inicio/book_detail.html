@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>{{ book.titulo }} - My Bookstore</title>
+{% endblock title %}
+
+{% block heading %}
+    {{ book.titulo }}
+{% endblock heading %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img class="img-fluid rounded" src="{{ book.imagen_del_libro.url }}" alt="{{ book.titulo }}">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="mb-4">{{ book.titulo }}</h2>
+                    <p class="mb-3"><strong>Autor:</strong> {{ book.autor }}</p>
+                    <p class="mb-3"><strong>Descripción:</strong> {{ book.descripcion | safe }}</p>
+                    <p class="mb-3"><strong>Precio:</strong> ${{ book.precio }}</p>
+                    <p class="mb-3"><strong>Fecha de creación:</strong> {{ book.creado }}</p>
+                    {% if request.user == book.vendedor %}
+                        <a href="{% url 'inicio:book_update' book.pk %}" class="btn btn-primary">Modificar</a>
+                    {% endif %}
+                    {% if request.user == book.vendedor or request.user.is_staff %}
+                        <a href="{% url 'inicio:book_delete' book.pk %}" class="btn btn-danger">Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

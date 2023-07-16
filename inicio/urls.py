@@ -1,18 +1,19 @@
-
 from django.urls import path
-from inicio import views
-from django.contrib.auth.views import LoginView
+from .views import BookListView, BookDetailView, BookUpdateView, BookDeleteView ,BookCreateView , InicioView
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
 
+
+app_name = 'inicio'
 
 urlpatterns = [
-    path('', views.inicio, name='inicio'),
-    path('propietarios/', views.propietarios, name='propietarios'),
-    path('mascotas/', views.mascotas, name='mascotas'),
-    path('veterinarios/', views.veterinarios, name='veterinarios'),
-    path('veterinario/agregar/', views.agregar_veterinario, name='agregar_veterinario'),
-    path('propietario/agregar/', views.agregar_propietario, name='agregar_propietario'),
-    path('mascota/agregar/', views.agregar_mascota, name='agregar_mascota'),
-    path('buscar/', views.buscar, name='buscar'),
-    path('login/', LoginView.as_view(template_name='inicio/login.html'), name='login'),
-    ]
+    path('admin/', admin.site.urls),
+    path('', InicioView.as_view(), name='inicio'),
+    path('listar_libros/', BookListView.as_view(), name='book_list'),
+    path('create/', BookCreateView.as_view(), name='book_create'),
+    path('<int:pk>/', BookDetailView.as_view(), name='book_detail'),
+    path('<int:pk>/update/', BookUpdateView.as_view(), name='book_update'),
+    path('<int:pk>/delete/', BookDeleteView.as_view(), name='book_delete'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

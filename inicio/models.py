@@ -1,28 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
-# Create your models here.
+def book_image_directory(instance, filename):
+    # Define la ruta de almacenamiento de las imágenes de libros
+    return f'book_images/{instance.titulo}/{filename}'
 
-class Veterinario(models.Model):
-    nombre = models.CharField(max_length=100)
-    especialidad = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=15)
-
-    def __str__(self):
-        return self.nombre
-
-class Mascota(models.Model):
-    nombre = models.CharField(max_length=100)
-    especie = models.CharField(max_length=100)
-    edad = models.PositiveIntegerField()
-    propietario = models.ForeignKey('Propietario', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.nombre
-
-class Propietario(models.Model):
-    nombre = models.CharField(max_length=100)
-    direccion = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=15)
+class Book(models.Model):
+    titulo = models.CharField(max_length=200)
+    autor = models.CharField(max_length=100)
+    descripcion = RichTextField(null=True)
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
+    vendedor = models.ForeignKey(User, on_delete=models.CASCADE)
+    imagen_del_libro = models.ImageField(upload_to=book_image_directory)
+    creado = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.nombre
+        return self.titulo
